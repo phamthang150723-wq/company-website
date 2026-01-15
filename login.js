@@ -6,27 +6,28 @@
             const password = document.getElementById('password').value;
             const remember = document.getElementById('remember').checked;
             
-            // Simulate login validation (replace with real authentication)
             if (email && password) {
-                // For demo: accept any non-empty credentials
                 console.log('Đăng nhập với:', { email, password, remember });
-                
-                // Show success message
+
+                // 🔑 LƯU TRẠNG THÁI ĐĂNG NHẬP
+                if (remember) {
+                    localStorage.setItem('isLogin', 'true');
+                } else {
+                    sessionStorage.setItem('isLogin', 'true');
+                }
+
                 alert('Đăng nhập thành công! Đang chuyển hướng...');
-                
-                // Redirect to main page (uncomment to use)
-                window.location.href = 'HomePage/index.html';
+                window.location.href = '../HomePage/index.html';
             } else {
-                // Show error message
                 const errorMessage = document.getElementById('errorMessage');
                 errorMessage.classList.add('show');
-                
-                // Hide error after 3 seconds
+
                 setTimeout(() => {
                     errorMessage.classList.remove('show');
                 }, 3000);
             }
         }
+
 
         // Handle forgot password
         function handleForgotPassword(event) {
@@ -38,11 +39,11 @@
         }
 
         // Handle signup
-        function handleSignup(event) {
+        function handleRegister(event) {
             event.preventDefault();
-            alert('Chức năng đăng ký sẽ được phát triển. Vui lòng liên hệ admin để tạo tài khoản.');
+            // alert('Chức năng đăng ký sẽ được phát triển. Vui lòng liên hệ admin để tạo tài khoản.');
             // Redirect to signup page (uncomment to use)
-            // window.location.href = 'signup.html';
+            window.location.href = '../Register/register.html';
         }
 
         // Handle social login
