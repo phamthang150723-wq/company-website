@@ -1,65 +1,90 @@
 // Handle login form submission
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const remember = document.getElementById('remember').checked;
-            
-            if (email && password) {
-                console.log('Đăng nhập với:', { email, password, remember });
+function handleLogin(event) {
+    event.preventDefault();
 
-                // 🔑 LƯU TRẠNG THÁI ĐĂNG NHẬP
-                if (remember) {
-                    localStorage.setItem('isLogin', 'true');
-                } else {
-                    sessionStorage.setItem('isLogin', 'true');
-                }
+    const emailInput = document.getElementById('email').value.trim();
+    const passwordInput = document.getElementById('password').value.trim();
+    const remember = document.getElementById('remember').checked;
+    const errorMessage = document.getElementById("errorMessage");
 
-                alert('Đăng nhập thành công! Đang chuyển hướng...');
-                window.location.href = '../HomePage/index.html';
-            } else {
-                const errorMessage = document.getElementById('errorMessage');
-                errorMessage.classList.add('show');
+    errorMessage.style.display = "none";
 
-                setTimeout(() => {
-                    errorMessage.classList.remove('show');
-                }, 3000);
+    // 🔎 LẤY USER ĐÃ ĐĂNG KÝ
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+
+    // ❌ Chưa có tài khoản
+    if (!savedUser) {
+        errorMessage.innerText = "Chưa có tài khoản, vui lòng đăng ký!";
+        errorMessage.style.display = "block";
+        return;
+    }
+
+    // ❌ Sai email hoặc mật khẩu
+    if (
+        emailInput !== savedUser.email ||
+        passwordInput !== savedUser.password
+    ) {
+        errorMessage.innerText = "Email hoặc mật khẩu không đúng!";
+        errorMessage.style.display = "block";
+        return;
+    }
+
+    // ✅ ĐĂNG NHẬP THÀNH CÔNG
+    console.log('Đăng nhập với:', { emailInput, remember });
+
+    // ✅ ĐĂNG NHẬP THÀNH CÔNG
+    if (remember) {
+        localStorage.setItem('isLogin', 'true');
+    } else {
+        sessionStorage.setItem('isLogin', 'true');
+    }
+
+    localStorage.setItem("currentUser", JSON.stringify({
+        email: savedUser.email,
+        name: savedUser.nameUser
+    }));
+
+    alert('Đăng nhập thành công! Đang chuyển hướng...');
+    window.location.href = '../HomePage/index.html';
+
+}
+
+
+// Handle forgot password
+function handleForgotPassword(event) {
+    event.preventDefault();
+    const email = prompt('Nhập email của bạn để khôi phục mật khẩu:');
+    if (email) {
+        alert('Liên kết khôi phục mật khẩu đã được gửi đến ' + email);
+    }
+}
+
+
+// Handle signup (chuyển sang trang đăng ký)
+function handleRegister(event) {
+    event.preventDefault();
+    window.location.href = '../Register/register.html';
+}
+
+
+// Handle social login
+function handleSocialLogin(provider) {
+    alert('Đăng nhập với ' + provider + ' sẽ được tích hợp sau.');
+}
+
+
+// Submit form khi nhấn Enter ở ô mật khẩu
+document.addEventListener('DOMContentLoaded', function () {
+    const passwordInput = document.getElementById('password');
+    const loginForm = document.getElementById('loginForm');
+
+    if (passwordInput && loginForm) {
+        passwordInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                loginForm.dispatchEvent(new Event('submit'));
             }
-        }
-
-
-        // Handle forgot password
-        function handleForgotPassword(event) {
-            event.preventDefault();
-            const email = prompt('Nhập email của bạn để khôi phục mật khẩu:');
-            if (email) {
-                alert('Liên kết khôi phục mật khẩu đã được gửi đến ' + email);
-            }
-        }
-
-        // Handle signup
-        function handleRegister(event) {
-            event.preventDefault();
-            // alert('Chức năng đăng ký sẽ được phát triển. Vui lòng liên hệ admin để tạo tài khoản.');
-            // Redirect to signup page (uncomment to use)
-            window.location.href = '../Register/register.html';
-        }
-
-        // Handle social login
-        function handleSocialLogin(provider) {
-            alert('Đăng nhập với ' + provider + ' sẽ được tích hợp sau.');
-            // Implement OAuth flow here
-        }
-
-        // Show password toggle (optional enhancement)
-        document.addEventListener('DOMContentLoaded', function() {
-            const passwordInput = document.getElementById('password');
-            
-            // Add show/hide password functionality
-            passwordInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('loginForm').dispatchEvent(new Event('submit'));
-                }
-            });
         });
+    }
+});
+

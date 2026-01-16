@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng kí - MTS Company</title>
     <link rel="stylesheet" href="register.css">
 </head>
+
 <body>
     <div class="login-container">
         <!-- Left Side - Image & Info -->
         <div class="login-image">
             <h2>Chào mừng trở lại!</h2>
             <p>Đăng nhập để truy cập vào hệ thống quản lý và các tính năng độc quyền của chúng tôi.</p>
-            
+
             <div class="features">
                 <div class="feature-item">
                     <div class="icon">✓</div>
@@ -29,8 +31,8 @@
             </div>
         </div>
 
-        <!-- Right Side - Login Form -->
-        <div class="login-form-container">
+        <!-- Right Side - Register Form -->
+        <div class="register-form-container">
             <div class="logo">MTS Company</div>
             <h3>Đăng kí</h3>
             <p class="subtitle">Nhập thông tin để đăng kí tài khoản</p>
@@ -39,18 +41,19 @@
                 Tên đăng nhập hoặc mật khẩu không đúng!
             </div>
 
-            <form id="loginForm" onsubmit="handleLogin(event)">
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="name">Tên người dùng</label>
+                    <div class="input-wrapper">
+                        <span class="icon">👨🏼‍💼</span>
+                        <input type="text" id="nameUser" name="nameUser" placeholder="Nhập tên người dùng" required>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="email">Email hoặc Tên đăng nhập</label>
                     <div class="input-wrapper">
                         <span class="icon">👤</span>
-                        <input 
-                            type="text" 
-                            id="email" 
-                            name="email" 
-                            placeholder="Nhập email hoặc tên đăng nhập"
-                            required
-                        >
+                        <input type="text" id="email" name="email" placeholder="Nhập email hoặc tên đăng nhập" required>
                     </div>
                 </div>
 
@@ -58,26 +61,14 @@
                     <label for="password">Mật khẩu</label>
                     <div class="input-wrapper">
                         <span class="icon">🔒</span>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            placeholder="Nhập mật khẩu"
-                            required
-                        >
+                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password">Nhập lại mật khẩu</label>
                     <div class="input-wrapper">
                         <span class="icon">🔒</span>
-                        <input 
-                            type="Re_password" 
-                            id="Re_password" 
-                            name="Re_password" 
-                            placeholder="Nhập lại mật khẩu"
-                            required
-                        >
+                        <input type="password" id="Re_password" name="Re_password" placeholder="Nhập lại mật khẩu" required>
                     </div>
                 </div>
 
@@ -91,4 +82,5 @@
 
     <script src="register.js"></script>
 </body>
+
 </html>

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Công ty MTS</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -23,8 +25,8 @@
                     <div class="user-icon"></div>
                     <div class="user-dropdown" id="userDropdown">
                         <div class="user-info">
-                            <div class="user-name">Urser Name</div>
-                            <div class="user-email">user@example.com</div>
+                            <div class="user-name" id="user-name">Name</div>
+                            <div class="user-email" id="userEmail">Email@gmail.com</div>
                         </div>
                         <ul class="dropdown-menu">
                             <li><a href="#">Thông tin cá nhân</a></li>
@@ -45,7 +47,8 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>Chào mừng đến với <br><span class="highlight">Công ty MTS</span></h1>
-                    <p>Chúng tôi cung cấp các giải pháp tốt nhất để phát triển doanh nghiệp của bạn. Với đội ngũ chuyên nghiệp và kinh nghiệm, chúng tôi cam kết mang lại giá trị tốt nhất.</p>
+                    <p>Chúng tôi cung cấp các giải pháp tốt nhất để phát triển doanh nghiệp của bạn. Với đội ngũ chuyên
+                        nghiệp và kinh nghiệm, chúng tôi cam kết mang lại giá trị tốt nhất.</p>
                     <div class="hero-buttons">
                         <a href="#contact" class="btn btn-primary">Liên hệ ngay →</a>
                         <a href="#services" class="btn btn-secondary">Tìm hiểu thêm</a>
@@ -69,8 +72,10 @@
             <div class="about-content">
                 <div class="about-text">
                     <h3>Câu chuyện của chúng tôi</h3>
-                    <p>Được thành lập với sứ mệnh mang đến những giải pháp sáng tạo và hiệu quả cho doanh nghiệp, chúng tôi đã không ngừng phát triển và khẳng định vị thế trên thị trường.</p>
-                    <p>Với đội ngũ chuyên gia giàu kinh nghiệm và am hiểu sâu sắc về nhu cầu thị trường, chúng tôi luôn đặt sự hài lòng của khách hàng lên hàng đầu.</p>
+                    <p>Được thành lập với sứ mệnh mang đến những giải pháp sáng tạo và hiệu quả cho doanh nghiệp, chúng
+                        tôi đã không ngừng phát triển và khẳng định vị thế trên thị trường.</p>
+                    <p>Với đội ngũ chuyên gia giàu kinh nghiệm và am hiểu sâu sắc về nhu cầu thị trường, chúng tôi luôn
+                        đặt sự hài lòng của khách hàng lên hàng đầu.</p>
                     <p>Chúng tôi tin rằng thành công của khách hàng chính là thành công của chúng tôi.</p>
                 </div>
                 <div class="stats-grid">
@@ -214,7 +219,7 @@
             <div class="contact-content">
                 <div class="contact-info">
                     <h3>Thông tin liên hệ</h3>
-                    
+
                     <div class="contact-item">
                         <div class="icon">📍</div>
                         <div>
@@ -254,7 +259,7 @@
 
                         <div class="form-group">
                             <label for="email">Email *</label>
-                            <input type="email" id="email" name="email" required placeholder="Nhập email">
+                            <input type="email" id="contactEmail" name="email" required placeholder="Nhập email">
                         </div>
 
                         <div class="form-group">
@@ -264,7 +269,8 @@
 
                         <div class="form-group">
                             <label for="message">Nội dung *</label>
-                            <textarea id="message" name="message" rows="5" required placeholder="Nhập nội dung tin nhắn"></textarea>
+                            <textarea id="message" name="message" rows="5" required
+                                placeholder="Nhập nội dung tin nhắn"></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary" style="width: 100%;">Gửi tin nhắn ➤</button>
@@ -328,4 +334,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

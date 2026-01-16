@@ -1,65 +1,59 @@
-// Handle login form submission
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const remember = document.getElementById('remember').checked;
-            
-            if (email && password) {
-                console.log('Đăng nhập với:', { email, password, remember });
+// Handle register
+function handleRegister(event) {
+    event.preventDefault();
 
-                // 🔑 LƯU TRẠNG THÁI ĐĂNG NHẬP
-                if (remember) {
-                    localStorage.setItem('isLogin', 'true');
-                } else {
-                    sessionStorage.setItem('isLogin', 'true');
-                }
+    const nameUser = document.getElementById("nameUser").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const rePassword = document.getElementById("Re_password").value.trim();
+    const errorMessage = document.getElementById("errorMessage");
 
-                alert('Đăng nhập thành công! Đang chuyển hướng...');
-                window.location.href = '../HomePage/index.html';
-            } else {
-                const errorMessage = document.getElementById('errorMessage');
-                errorMessage.classList.add('show');
+    // Ẩn lỗi cũ
+    errorMessage.style.display = "none";
+    if (!nameUser) {
+        errorMessage.innerText = "Vui lòng nhập họ và tên!";
+        errorMessage.style.display = "block";
+        return;
+    }
+    // Kiểm tra mật khẩu khớp nhau
+    if (password !== rePassword) {
+        errorMessage.innerText = "Mật khẩu nhập lại không khớp!";
+        errorMessage.style.display = "block";
+        return;
+    }
 
-                setTimeout(() => {
-                    errorMessage.classList.remove('show');
-                }, 3000);
-            }
-        }
+    // Kiểm tra độ dài mật khẩu
+    if (password.length < 6) {
+        errorMessage.innerText = "Mật khẩu phải có ít nhất 6 ký tự!";
+        errorMessage.style.display = "block";
+        return;
+    }
 
+    // Kiểm tra email đơn giản
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        errorMessage.innerText = "Email không hợp lệ!";
+        errorMessage.style.display = "block";
+        return;
+    }
 
-        // Handle forgot password
-        function handleForgotPassword(event) {
-            event.preventDefault();
-            const email = prompt('Nhập email của bạn để khôi phục mật khẩu:');
-            if (email) {
-                alert('Liên kết khôi phục mật khẩu đã được gửi đến ' + email);
-            }
-        }
+    // Lưu user vào localStorage (demo)
+    const user = {
+        email: email,
+        password: password,
+        nameUser: nameUser
+    };
 
-        // Handle signup
-        function handleSignup(event) {
-            event.preventDefault();
-            // alert('Chức năng đăng ký sẽ được phát triển. Vui lòng liên hệ admin để tạo tài khoản.');
-            // Redirect to signup page (uncomment to use)
-            window.location.href = '../Login/login.html';
-        }
+    localStorage.setItem("user", JSON.stringify(user));
 
-        // Handle social login
-        function handleSocialLogin(provider) {
-            alert('Đăng nhập với ' + provider + ' sẽ được tích hợp sau.');
-            // Implement OAuth flow here
-        }
+    alert("Đăng ký thành công! Chuyển sang trang đăng nhập.");
 
-        // Show password toggle (optional enhancement)
-        document.addEventListener('DOMContentLoaded', function() {
-            const passwordInput = document.getElementById('password');
-            
-            // Add show/hide password functionality
-            passwordInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('loginForm').dispatchEvent(new Event('submit'));
-                }
-            });
-        });
+    // Chuyển sang trang đăng nhập
+    window.location.href = "../Login/login.html";
+}
+
+// Handle chuyển sang đăng nhập
+function handleSignup(event) {
+    event.preventDefault();
+    window.location.href = "../Login/login.html";
+}
