@@ -14,9 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentUser) {
         const emailEl = document.getElementById("userEmail");
         const nameEl = document.getElementById("user-name");
+        const userIconEl = document.querySelector(".user-icon");
+
 
         if (emailEl) emailEl.textContent = currentUser.email;
         if (nameEl) nameEl.textContent = currentUser.name;
+        if (userIconEl && currentUser.avatar) {
+            userIconEl.innerHTML = `
+                <img src="${currentUser.avatar}" alt="Avatar">
+            `;
+        }
     }
 
 });
@@ -87,8 +94,7 @@ document.querySelectorAll('.dropdown-menu a, .dropdown-menu button').forEach(ite
         }
         else if (text === 'Thông tin cá nhân') {
             e.preventDefault();
-            alert('Trang thông tin cá nhân đang được phát triển.');
-            userDropdown.classList.remove('active');
+            window.location.href = '../Profile/user-profile.html';
         } else if (text === 'Cài đặt') {
             e.preventDefault();
             alert('Trang cài đặt đang được phát triển.');

@@ -33,7 +33,10 @@
     <!-- Header -->
     <header>
         <nav class="container">
-            <div class="logo">MTS Company</div>
+            <div class="logo">
+                <a href="#home" onclick="closeMenu()">MTS Company</a>
+            </div>
+
             <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" onclick="closeMenu()">Trang chủ</a></li>
                 <li><a href="#about" onclick="closeMenu()">Về chúng tôi</a></li>
@@ -50,7 +53,7 @@
                             <div class="user-email" id="userEmail">Email@gmail.com</div>
                         </div>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Thông tin cá nhân</a></li>
+                            <li><a href="../Profile/user-profile.html">Thông tin cá nhân</a></li>
                             <li><a href="#">Cài đặt</a></li>
                             <li class="divider"></li>
                             <li><button class="logout">Đăng xuất</button></li>
@@ -63,24 +66,33 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="home">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Chào mừng đến với <br><span class="highlight">Công ty MTS</span></h1>
-                    <p>Chúng tôi cung cấp các giải pháp tốt nhất để phát triển doanh nghiệp của bạn. Với đội ngũ chuyên
-                        nghiệp và kinh nghiệm, chúng tôi cam kết mang lại giá trị tốt nhất.</p>
-                    <div class="hero-buttons">
-                        <a href="#contact" class="btn btn-primary">Liên hệ ngay →</a>
-                        <a href="#services" class="btn btn-secondary">Tìm hiểu thêm</a>
-                    </div>
+    <section id="home" class="hero">
+        <video class="hero-bg" autoplay muted loop playsinline>
+            <source src="image/VideoBackGround.mp4" type="video/mp4">
+        </video>
+
+        <div class="hero-overlay"></div>
+
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Chào mừng đến với <br><span class="highlight">Công ty MTS</span></h1>
+                <p>
+                    Chúng tôi cung cấp các giải pháp tốt nhất để phát triển doanh nghiệp của bạn.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">Liên hệ ngay →</a>
+                    <a href="#services" class="btn btn-secondary">Tìm hiểu thêm</a>
                 </div>
-                <div class="hero-image">
-                    <img src="image/homePage.jpg" alt="Home Page">
-                </div>
+            </div>
+
+            <!-- HÌNH ẢNH PHẢI NẰM TRONG hero-content -->
+            <div class="hero-image">
+                <img src="image/headerImg.avif" alt="Home Page">
             </div>
         </div>
     </section>
+
+
 
     <!-- About Section -->
     <section id="about">
