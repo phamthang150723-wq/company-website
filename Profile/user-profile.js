@@ -1,89 +1,118 @@
-const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    updateDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-
-let profile = {
-    name: storedUser?.name || "",
-    email: storedUser?.email || "",
-    phone: storedUser?.phone || "",
-    avatar: storedUser?.avatar || ""
+/* ================= FIREBASE ================= */
+const firebaseConfig = {
+    apiKey: "AIzaSyBr_eqEJhS1te69KakL2Nc83cJamBRpUps",
+    authDomain: "mtscompany-4ee95.firebaseapp.com",
+    projectId: "mtscompany-4ee95",
 };
 
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
-let isEditing = false;
-
-// Elements
+/* ================= ELEMENTS ================= */
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const phoneInput = document.getElementById("phone");
+const avatarDiv = document.getElementById("avatar");
 
 const editBtn = document.getElementById("editBtn");
-const editActions = document.getElementById("editActions");
 const saveBtn = document.getElementById("saveBtn");
 const cancelBtn = document.getElementById("cancelBtn");
-
-const avatarDiv = document.getElementById("avatar");
-const uploadBtn = document.getElementById("uploadBtn");
-const fileInput = document.getElementById("fileInput");
-
+const editActions = document.getElementById("editActions");
 const backHomeBtn = document.getElementById("backHomeBtn");
 
-backHomeBtn.onclick = () => {
-    if (isEditing) {
-        if (!confirm("Bạn chưa lưu thay đổi. Vẫn muốn rời trang?")) return;
-    }
-    window.location.href = "../HomePage/index.html";
-};
+/* ================= STATE ================= */
+let uid = null;
+let profile = {};
 
-// Init
-function render() {
-    nameInput.value = profile.name;
-    emailInput.value = profile.email;
-    phoneInput.value = profile.phone;
-
-    if (profile.avatar) {
-        avatarDiv.innerHTML = `<img src="${profile.avatar}" />`;
+/* ================= AUTH CHECK ================= */
+onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+        alert("Vui lòng đăng nhập");
+        window.location.href = "../Login/login.html";
+        return;
     }
+
+    uid = user.uid;
+    await loadUser(user);
+});
+
+/* ================= LOAD USER ================= */
+async function loadUser(user) {
+    const ref = doc(db, "users", uid);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+        const avatarURL = `https://api.dicebear.com/7.x/initials/svg?seed=${user.displayName || user.email}`;
+
+        profile = {
+            name: user.displayName || "",
+            email: user.email,
+            phone: "",
+            avatar: avatarURL
+        };
+
+        await setDoc(ref, profile);
+    } else {
+        profile = snap.data();
+    }
+
+    render();
 }
-render();
 
-// Edit
-editBtn.onclick = () => {
-    isEditing = true;
-    toggleEdit(true);
-};
+/* ================= RENDER ================= */
+function render() {
+    nameInput.value = profile.name || "";
+    emailInput.value = profile.email || "";
+    phoneInput.value = profile.phone || "";
+
+    avatarDiv.innerHTML = `<img src="${profile.avatar}" />`;
+}
+
+/* ================= EDIT ================= */
+editBtn.onclick = () => toggleEdit(true);
 
 cancelBtn.onclick = () => {
     toggleEdit(false);
     render();
 };
 
-saveBtn.onclick = () => {
+saveBtn.onclick = async () => {
     if (!validate()) return;
 
-    profile.name = nameInput.value;
-    profile.email = emailInput.value;
-    profile.phone = phoneInput.value;
+    profile.name = nameInput.value.trim();
+    profile.phone = phoneInput.value.trim();
+    profile.avatar = `https://api.dicebear.com/7.x/initials/svg?seed=${profile.name}`;
 
-    // 🔥 LƯU NGƯỢC LẠI
-    localStorage.setItem("currentUser", JSON.stringify(profile));
+    await updateDoc(doc(db, "users", uid), profile);
 
     alert("Cập nhật thành công!");
     toggleEdit(false);
 };
 
-
+/* ================= UI ================= */
 function toggleEdit(edit) {
-    isEditing = edit;
     nameInput.disabled = !edit;
-    emailInput.disabled = !edit;
     phoneInput.disabled = !edit;
 
     editBtn.style.display = edit ? "none" : "inline-block";
     editActions.style.display = edit ? "flex" : "none";
-    uploadBtn.style.display = edit ? "block" : "none";
 }
 
-// Validate
+/* ================= VALIDATE ================= */
 function validate() {
     let ok = true;
 
@@ -91,11 +120,6 @@ function validate() {
         setError("name", "Tên không được để trống");
         ok = false;
     } else setError("name", "");
-
-    if (!emailInput.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        setError("email", "Email không hợp lệ");
-        ok = false;
-    } else setError("email", "");
 
     if (!phoneInput.value.match(/^[0-9]{10,11}$/)) {
         setError("phone", "Số điện thoại không hợp lệ");
@@ -109,14 +133,9 @@ function setError(field, msg) {
     document.getElementById(`error-${field}`).innerText = msg;
 }
 
-// Avatar upload
-uploadBtn.onclick = () => fileInput.click();
-fileInput.onchange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-        profile.avatar = reader.result;
-        render();
-    };
-    reader.readAsDataURL(file);
+/* ================= NAV ================= */
+backHomeBtn.onclick = () => {
+    if (confirm("Rời trang?")) {
+        window.location.href = "../HomePage/index.html";
+    }
 };

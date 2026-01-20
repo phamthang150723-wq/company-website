@@ -5,35 +5,89 @@ const chatInput = document.getElementById("chatInput");
 const chatSend = document.getElementById("chatSend");
 const chatMessages = document.getElementById("chatMessages");
 
-// Toggle chat
-chatToggle.onclick = () => chatWindow.classList.toggle("active");
-chatClose.onclick = () => chatWindow.classList.remove("active");
+let isSending = false;
+let hasGreeted = false; // 🔥 CHÌA KHOÁ
 
-// Gửi tin nhắn
+// Reset input tránh autofill
+document.addEventListener("DOMContentLoaded", () => {
+    chatInput.value = "";
+});
+
+// Toggle chat
+chatToggle.addEventListener("click", () => {
+    const isOpening = !chatWindow.classList.contains("active");
+    chatWindow.classList.toggle("active");
+
+    if (isOpening && !hasGreeted) {
+        hasGreeted = true;
+
+        // 🔥 ĐỢI BROWSER RENDER XONG
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                sendMessage("Xin chào! Tôi có thể giúp gì cho bạn?", "bot");
+            }, 120);
+        });
+    }
+
+    setTimeout(() => {
+        chatInput.value = "";
+        chatInput.focus();
+    }, 50);
+});
+
+chatClose.addEventListener("click", () => {
+    chatWindow.classList.remove("active");
+});
+
+// Gửi message
 function sendMessage(text, sender) {
     const div = document.createElement("div");
     div.className = `message ${sender}`;
-    div.textContent = text;
+
+    const content = document.createElement("div");
+    content.textContent = text;
+
+    const time = document.createElement("div");
+    time.className = "message-time";
+    time.textContent = new Date().toLocaleTimeString("vi-VN", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
+    div.appendChild(content);
+    div.appendChild(time);
+
     chatMessages.appendChild(div);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // 🔥 SCROLL SAU KHI DOM UPDATE
+    requestAnimationFrame(() => {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
 }
 
-// Click gửi
-chatSend.onclick = () => {
-    if (!chatInput.value.trim()) return;
+// Handle send
+function handleSend() {
+    if (isSending) return;
 
-    sendMessage(chatInput.value, "user");
+    const text = chatInput.value.trim();
+    if (!text) return;
+
+    isSending = true;
+    sendMessage(text, "user");
     chatInput.value = "";
 
     setTimeout(() => {
         sendMessage("Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm.", "bot");
-    }, 1000);
-};
+        isSending = false;
+    }, 900);
+}
 
-// Enter để gửi
+chatSend.addEventListener("click", handleSend);
+
 chatInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") chatSend.click();
+    if (e.key === "Enter") {
+        e.preventDefault();
+        handleSend();
+    }
 });
 
-// Tin nhắn chào
-sendMessage("Xin chào! Tôi có thể giúp gì cho bạn?", "bot");

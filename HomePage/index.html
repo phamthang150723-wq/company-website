@@ -7,29 +7,94 @@
     <title>Công ty MTS</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="chat-widget.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
-<div id="chat-widget">
-    <div class="chat-window" id="chatWindow">
-        <div class="chat-header">
-            <div>
-                <strong>MESSENGER</strong>
-                <div class="chat-subtitle">Chúng tôi có thể hỗ trợ gì cho bạn...</div>
-            </div>
-            <button id="chatClose">✕</button>
-        </div>
 
-        <div class="chat-messages" id="chatMessages"></div>
-
-        <div class="chat-input">
-            <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." />
-            <button id="chatSend">➤</button>
-        </div>
-    </div>
-
-    <button class="chat-toggle" id="chatToggle">💬</button>
-</div>
 
 <body>
+    <!-- CHAT WIDGET -->
+    <div id="chat-widget">
+
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <i class="fa-brands fa-facebook-messenger messenger-icon"></i>
+                    <div>
+                        <strong>Messenger</strong>
+                        <div class="chat-subtitle">
+                            Chúng tôi có thể hỗ trợ gì cho bạn...
+                        </div>
+                    </div>
+                </div>
+
+                <button id="chatClose">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages"></div>
+
+            <div class="chat-input">
+                <form autocomplete="off" onsubmit="return false;">
+                    <input type="text" name="email" style="display:none">
+                    <input type="password" name="password" style="display:none">
+
+                    <input
+                        type="search"
+                        id="chatInput"
+                        name="chat_message_123"
+                        placeholder="Nhập tin nhắn..."
+                        autocomplete="new-password"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        inputmode="text"
+                    />
+                </form>
+
+                <button id="chatSend">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- NÚT CHAT -->
+        <button class="chat-toggle" id="chatToggle">
+            <i class="fa-brands fa-facebook-messenger"></i>
+        </button>
+
+    </div>
+
+    <script src="chat-widget.js"></script>
+
+
+    <!-- Change Password Modal -->
+    <div class="modal" id="changePasswordModal">
+        <div class="modal-content">
+            <h3>Đổi mật khẩu</h3>
+
+            <div class="form-group">
+                <input type="password" id="oldPassword" placeholder="Mật khẩu cũ">
+                <small class="error" id="error-old"></small>
+            </div>
+
+            <div class="form-group">
+                <input type="password" id="newPassword" placeholder="Mật khẩu mới">
+                <small class="error" id="error-new"></small>
+            </div>
+
+            <div class="form-group">
+                <input type="password" id="confirmPassword" placeholder="Xác nhận mật khẩu mới">
+                <small class="error" id="error-confirm"></small>
+            </div>
+
+            <div class="modal-actions">
+                <button id="cancelChange">Hủy</button>
+                <button id="savePassword">Lưu</button>
+            </div>
+        </div>
+    </div>
     <!-- Header -->
     <header>
         <nav class="container">
@@ -54,7 +119,7 @@
                         </div>
                         <ul class="dropdown-menu">
                             <li><a href="../Profile/user-profile.html">Thông tin cá nhân</a></li>
-                            <li><a href="#">Cài đặt</a></li>
+                            <li><a href="#">Đổi mật khẩu</a></li>
                             <li class="divider"></li>
                             <li><button class="logout">Đăng xuất</button></li>
                         </ul>
@@ -195,7 +260,7 @@
                         <div class="social-overlay">
                             <button class="social-btn">in</button>
                             <button class="social-btn">𝕏</button>
-                            <button class="social-btn">✉</button>
+                            <button class="social-btn">✉️</button>
                         </div>
                     </div>
                     <h3>Nguyễn văn A</h3>
@@ -207,7 +272,7 @@
                         <div class="social-overlay">
                             <button class="social-btn">in</button>
                             <button class="social-btn">𝕏</button>
-                            <button class="social-btn">✉</button>
+                            <button class="social-btn">✉️</button>
                         </div>
                     </div>
                     <h3>Nguyễn văn B</h3>
@@ -219,7 +284,7 @@
                         <div class="social-overlay">
                             <button class="social-btn">in</button>
                             <button class="social-btn">𝕏</button>
-                            <button class="social-btn">✉</button>
+                            <button class="social-btn">✉️</button>
                         </div>
                     </div>
                     <h3>Nguyễn văn C</h3>
@@ -231,7 +296,7 @@
                         <div class="social-overlay">
                             <button class="social-btn">in</button>
                             <button class="social-btn">𝕏</button>
-                            <button class="social-btn">✉</button>
+                            <button class="social-btn">✉️</button>
                         </div>
                     </div>
                     <h3>Nguyễn văn D</h3>
@@ -279,7 +344,7 @@
 
                     <div class="working-hours">
                         <h4>Giờ làm việc</h4>
-                        <p>Thứ 2 - Thứ 6: 7:00 - 17:00<br>Thứ 7, Chủ nhật: Nghỉ</p>
+                        <p>Thứ 2 - Thứ 6: 8:00 - 17:00<br>Thứ 7, Chủ nhật: Nghỉ</p>
                     </div>
                 </div>
 
@@ -365,8 +430,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
-    <script src="chat-widget.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>

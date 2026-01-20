@@ -39,6 +39,7 @@
             font-weight: bold;
             color: #2563eb;
         }
+
         .logo a {
             text-decoration: none;
             color: inherit;
@@ -87,7 +88,7 @@
         .user-icon {
             width: 40px;
             height: 40px;
-            background-image: url("image/user.png");
+            background-image: url("image/thang.jpg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -103,6 +104,7 @@
             transition: transform 0.3s, box-shadow 0.3s;
             border: 2px solid transparent;
         }
+
         .user-icon img {
             width: 100%;
             height: 100%;
@@ -215,6 +217,7 @@
             align-items: center;
             background: linear-gradient(135deg, #dbeafe 0%, #ffffff 100%);
         }
+
         .hero {
             position: relative;
             min-height: 100vh;
@@ -222,6 +225,7 @@
             display: flex;
             align-items: center;
         }
+
         .hero-bg {
             position: absolute;
             top: 50%;
@@ -233,12 +237,14 @@
             filter: blur(6px);
             z-index: 1;
         }
+
         .hero-overlay {
             position: absolute;
             inset: 0;
             background: rgba(0, 0, 0, 0.45);
             z-index: 2;
         }
+
         .hero-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -317,7 +323,7 @@
                 linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
             mask-composite: intersect;
 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
         }
 
 
@@ -691,6 +697,64 @@
             color: #9ca3af;
         }
 
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 24px;
+            width: 320px;
+            border-radius: 8px;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .modal-actions button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+        #savePassword {
+            background: #2563eb;
+            color: white;
+        }
+
+        #cancelChange {
+            background: #e5e7eb;
+        }
         /* Responsive */
         @media (max-width: 768px) {
             .nav-menu {

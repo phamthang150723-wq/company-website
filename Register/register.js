@@ -1,59 +1,55 @@
-// Handle register
-function handleRegister(event) {
-    event.preventDefault();
+import { auth, db } from "../Login/firebase.js";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-    const nameUser = document.getElementById("nameUser").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const rePassword = document.getElementById("Re_password").value.trim();
-    const errorMessage = document.getElementById("errorMessage");
+import {
+  doc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // Ẩn lỗi cũ
-    errorMessage.style.display = "none";
-    if (!nameUser) {
-        errorMessage.innerText = "Vui lòng nhập họ và tên!";
-        errorMessage.style.display = "block";
-        return;
-    }
-    // Kiểm tra mật khẩu khớp nhau
-    if (password !== rePassword) {
-        errorMessage.innerText = "Mật khẩu nhập lại không khớp!";
-        errorMessage.style.display = "block";
-        return;
-    }
+const form = document.getElementById("registerForm");
+const errorMessage = document.getElementById("errorMessage");
 
-    // Kiểm tra độ dài mật khẩu
-    if (password.length < 6) {
-        errorMessage.innerText = "Mật khẩu phải có ít nhất 6 ký tự!";
-        errorMessage.style.display = "block";
-        return;
-    }
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-    // Kiểm tra email đơn giản
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        errorMessage.innerText = "Email không hợp lệ!";
-        errorMessage.style.display = "block";
-        return;
-    }
+  const nameUser = document.getElementById("nameUser").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const rePassword = document.getElementById("Re_password").value.trim();
 
-    // Lưu user vào localStorage (demo)
-    const user = {
-        email: email,
-        password: password,
-        nameUser: nameUser
-    };
+  errorMessage.style.display = "none";
 
-    localStorage.setItem("user", JSON.stringify(user));
+  if (!nameUser || password !== rePassword || password.length < 6) {
+    errorMessage.textContent = "Thông tin không hợp lệ!";
+    errorMessage.style.display = "block";
+    return;
+  }
 
-    alert("Đăng ký thành công! Chuyển sang trang đăng nhập.");
+  try {
+    const userCred = await createUserWithEmailAndPassword(auth, email, password);
 
-    // Chuyển sang trang đăng nhập
+    await updateProfile(userCred.user, {
+      displayName: nameUser
+    });
+
+    await setDoc(doc(db, "users", userCred.user.uid), {
+      uid: userCred.user.uid,
+      email,
+      displayName: nameUser,
+      role: "user",
+      createdAt: serverTimestamp()
+    });
+
+    alert("✅ Đăng ký thành công!");
     window.location.href = "../Login/login.html";
-}
 
-// Handle chuyển sang đăng nhập
-function handleSignup(event) {
-    event.preventDefault();
-    window.location.href = "../Login/login.html";
-}
+  } catch (err) {
+    console.error("REGISTER ERROR:", err);
+    errorMessage.textContent = err.code || "Đăng ký thất bại";
+    errorMessage.style.display = "block";
+  }
+});
