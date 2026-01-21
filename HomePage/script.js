@@ -9,23 +9,38 @@ import {
 
 import {
   doc,
-  getDoc
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-onAuthStateChanged(auth, async (user) => {
+/* ================= AUTH + USER DATA ================= */
+onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "../Login/login.html";
     return;
   }
 
-  const snap = await getDoc(doc(db, "users", user.uid));
-  if (snap.exists()) {
-    const data = snap.data();
-    document.getElementById("user-name").textContent = data.displayName;
-    document.getElementById("userEmail").textContent = data.email;
-  }
-});
+  const userRef = doc(db, "users", user.uid);
 
+  onSnapshot(userRef, (snap) => {
+    if (!snap.exists()) return;
+
+    const data = snap.data();
+
+    document.getElementById("user-name").textContent = data.name || "";
+    document.getElementById("userEmail").textContent = data.email || "";
+
+    const userIconEl = document.querySelector(".user-icon");
+    if (userIconEl && data.avatar) {
+      userIconEl.innerHTML = `
+        <img 
+          src="${data.avatar}" 
+          alt="avatar"
+          style="width:100%;height:100%;object-fit:cover"
+        />
+      `;
+    }
+  });
+});
 
 
 // ================= USER DROPDOWN =================

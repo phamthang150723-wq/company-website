@@ -11,6 +11,30 @@ import {
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+async function uploadToCloudinary(file) {
+    const CLOUD_NAME = "drkh7t7ds";
+    const UPLOAD_PRESET = "mtscompany";
+
+    const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    const res = await fetch(url, {
+        method: "POST",
+        body: formData
+    });
+
+    if (!res.ok) {
+        throw new Error("Upload thất bại");
+    }
+
+    const data = await res.json();
+    return data.secure_url; // ✅ URL ảnh
+}
+
+
 /* ================= FIREBASE ================= */
 const firebaseConfig = {
     apiKey: "AIzaSyBr_eqEJhS1te69KakL2Nc83cJamBRpUps",
@@ -18,15 +42,16 @@ const firebaseConfig = {
     projectId: "mtscompany-4ee95",
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+import { auth, db } from "../Login/firebase.js";
 
 /* ================= ELEMENTS ================= */
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const phoneInput = document.getElementById("phone");
 const avatarDiv = document.getElementById("avatar");
+const uploadBtn = document.getElementById("uploadBtn");
+const fileInput = document.getElementById("fileInput");
+
 
 const editBtn = document.getElementById("editBtn");
 const saveBtn = document.getElementById("saveBtn");
@@ -95,12 +120,46 @@ saveBtn.onclick = async () => {
 
     profile.name = nameInput.value.trim();
     profile.phone = phoneInput.value.trim();
-    profile.avatar = `https://api.dicebear.com/7.x/initials/svg?seed=${profile.name}`;
+    
 
-    await updateDoc(doc(db, "users", uid), profile);
+    await updateDoc(doc(db, "users", uid),{
+        name: profile.name,
+        phone: profile.phone,
+        avatar: profile.avatar
+    });
 
     alert("Cập nhật thành công!");
     toggleEdit(false);
+};
+uploadBtn.onclick = () => fileInput.click();
+
+fileInput.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate
+    if (!file.type.startsWith("image/")) {
+        alert("Chỉ được upload ảnh");
+        return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+        alert("Ảnh tối đa 2MB");
+        return;
+    }
+
+    avatarDiv.innerHTML = "⏳ Đang upload...";
+
+    try {
+        const imageURL = await uploadToCloudinary(file);
+
+        profile.avatar = imageURL;
+        avatarDiv.innerHTML = `<img src="${imageURL}" />`;
+
+    } catch (err) {
+        alert("Upload ảnh thất bại");
+        console.error(err);
+    }
 };
 
 /* ================= UI ================= */
@@ -108,9 +167,13 @@ function toggleEdit(edit) {
     nameInput.disabled = !edit;
     phoneInput.disabled = !edit;
 
+    // 🔑 HIỆN / ẨN NÚT CAMERA
+    uploadBtn.style.display = edit ? "block" : "none";
+
     editBtn.style.display = edit ? "none" : "inline-block";
     editActions.style.display = edit ? "flex" : "none";
 }
+
 
 /* ================= VALIDATE ================= */
 function validate() {
