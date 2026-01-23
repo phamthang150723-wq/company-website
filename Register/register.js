@@ -39,7 +39,8 @@ form.addEventListener("submit", async (event) => {
     await setDoc(doc(db, "users", userCred.user.uid), {
       uid: userCred.user.uid,
       email,
-      displayName: nameUser,
+      name: nameUser,
+      avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${nameUser}`,
       role: "user",
       createdAt: serverTimestamp()
     });
@@ -53,3 +54,9 @@ form.addEventListener("submit", async (event) => {
     errorMessage.style.display = "block";
   }
 });
+document.getElementById("loginLink").addEventListener("click", (e) => {
+  e.preventDefault();
+  window.location.href = "../Login/login.html";
+});
+
+

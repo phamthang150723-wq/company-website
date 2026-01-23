@@ -7,6 +7,16 @@ const chatMessages = document.getElementById("chatMessages");
 
 let isSending = false;
 let hasGreeted = false; // 🔥 CHÌA KHOÁ
+let isComposing = false;
+
+chatInput.addEventListener("compositionstart", () => {
+    isComposing = true;
+});
+
+chatInput.addEventListener("compositionend", () => {
+    isComposing = false;
+});
+
 
 // Reset input tránh autofill
 document.addEventListener("DOMContentLoaded", () => {
@@ -74,7 +84,13 @@ function handleSend() {
 
     isSending = true;
     sendMessage(text, "user");
+
+    // 🔥 CLEAR CHUẨN IME
     chatInput.value = "";
+    chatInput.blur();
+    requestAnimationFrame(() => {
+        chatInput.focus();
+    });
 
     setTimeout(() => {
         sendMessage("Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm.", "bot");
@@ -82,10 +98,13 @@ function handleSend() {
     }, 900);
 }
 
+
+
 chatSend.addEventListener("click", handleSend);
 
 chatInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
+        if (isComposing) return;
         e.preventDefault();
         handleSend();
     }
