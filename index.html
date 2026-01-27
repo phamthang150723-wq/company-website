@@ -15,88 +15,6 @@
 
 <body>
 
-    <!-- CHAT WIDGET -->
-    <div id="chat-widget">
-        
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header">
-                <div class="chat-title">
-                    <i class="fa-brands fa-facebook-messenger messenger-icon"></i>
-                    <div>
-                        <strong>Messenger</strong>
-                        <div class="chat-subtitle">
-                            Chúng tôi có thể hỗ trợ gì cho bạn...
-                        </div>
-                    </div>
-                </div>
-
-                <button id="chatClose">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <div class="chat-messages" id="chatMessages"></div>
-
-            <div class="chat-input">
-                <form autocomplete="off" onsubmit="return false;">
-                    <input type="text" name="email" style="display:none">
-                    <input type="password" name="password" style="display:none">
-
-                    <input
-                        type="search"
-                        id="chatInput"
-                        name="chat_message_123"
-                        placeholder="Nhập tin nhắn..."
-                        autocomplete="new-password"
-                        autocorrect="off"
-                        autocapitalize="off"
-                        spellcheck="false"
-                        inputmode="text"
-                    />
-                </form>
-
-                <button id="chatSend">
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- NÚT CHAT -->
-        <button class="chat-toggle" id="chatToggle">
-            <i class="fa-brands fa-facebook-messenger"></i>
-        </button>
-
-    </div>
-
-
-
-
-    <!-- Change Password Modal -->
-    <div class="modal" id="changePasswordModal">
-        <div class="modal-content">
-            <h3>Đổi mật khẩu</h3>
-
-            <div class="form-group">
-                <input type="password" id="oldPassword" placeholder="Mật khẩu cũ">
-                <small class="error" id="error-old"></small>
-            </div>
-
-            <div class="form-group">
-                <input type="password" id="newPassword" placeholder="Mật khẩu mới">
-                <small class="error" id="error-new"></small>
-            </div>
-
-            <div class="form-group">
-                <input type="password" id="confirmPassword" placeholder="Xác nhận mật khẩu mới">
-                <small class="error" id="error-confirm"></small>
-            </div>
-
-            <div class="modal-actions">
-                <button id="cancelChange">Hủy</button>
-                <button id="savePassword">Lưu</button>
-            </div>
-        </div>
-    </div>
     <!-- Header -->
     <header>
         <nav class="container">
@@ -111,24 +29,7 @@
                 <li><a href="#team" onclick="closeMenu()">Đội ngũ</a></li>
                 <li><a href="#contact" onclick="closeMenu()">Liên hệ</a></li>
             </ul>
-            <div class="nav-right">
-                <div class="user-menu">
-                    <div class="user-icon"></div>
-                    <div class="user-dropdown" id="userDropdown">
-                        <div class="user-info">
-                            <div class="user-name" id="user-name">Name</div>
-                            <div class="user-email" id="userEmail">Email@gmail.com</div>
-                        </div>
-                        <ul class="dropdown-menu">
-                            <li><a href="../Profile/user-profile.html">Thông tin cá nhân</a></li>
-                            <li><a href="#">Đổi mật khẩu</a></li>
-                            <li class="divider"></li>
-                            <li><button class="logout">Đăng xuất</button></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+           
         </nav>
     </header>
 
@@ -432,7 +333,6 @@
         </div>
     </footer>
 
-    <script src="chat-widget.js"></script>
     <script type="module" src="script.js"></script>
     <script src="snow.js"></script>
 </body>
