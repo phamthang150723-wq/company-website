@@ -289,14 +289,18 @@
         }
 
         .btn-primary {
+            background: white;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+
+        .btn-primary:hover {
             background: #2563eb;
             color: white;
         }
 
-        .btn-primary:hover {
-            background: #1d4ed8;
-        }
 
+        
         .btn-secondary {
             background: white;
             color: #2563eb;
@@ -304,7 +308,8 @@
         }
 
         .btn-secondary:hover {
-            background: #dbeafe;
+            background: #2563eb;
+            color: white;
         }
 
         .hero-image img {

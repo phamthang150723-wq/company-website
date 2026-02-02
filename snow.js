@@ -22,7 +22,7 @@ window.addEventListener("load", () => {
     window.addEventListener("resize", resize);
 
     // cấu hình chủ đề
-    const THEME = "sakura"; // 👉 snow | rain | leaves | sakura
+    const THEME = "leaves"; // 👉 snow | rain | leaves | sakura
 
     let COUNT = 150;
     let particles = [];
